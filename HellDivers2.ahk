@@ -2,7 +2,7 @@
 SetWorkingDir %A_ScriptDir%
 #SingleInstance force
 
-version = 1.10
+version = 1.11
 
 ;list of Deparment Stratagems
 departments=General|Offensive|Supply|Defensive
@@ -85,16 +85,16 @@ return
 ~Enter::
 gui, submit, nohide
 allStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%
-stratagemLeftDivider := A_ScreenWidth*(140/1920)
-stratagemMiddleDivider := A_ScreenWidth*(225/1920)
-stratagemRightDivider := A_ScreenWidth*(310/1920)
+searchWindowEndX := (A_ScreenWidth/2)-(A_ScreenHeight*480/1080)
+searchWindowEndY := A_ScreenHeight*(930/1080)
+stratagemLeftDivider := searchWindowEndX-(4*85)
+stratagemMiddleDivider := searchWindowEndX-(3*85)
+stratagemRightDivider := searchWindowEndX-(2*85)
 searchWindowStartX := A_ScreenWidth*(50/1920)
 searchWindowStartY := A_ScreenHeight*(830/1080)
-searchWindowEndX := (A_ScreenWidth/2)-(A_ScreenHeight*460/1080)
-searchWindowEndY := A_ScreenHeight*(930/1080)
 loop, parse, allStratagems, |
 {
-	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *40 %A_LoopField%.png
+	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *50 %A_LoopField%.png
 	if Errorlevel = 0
 	{
 		if (stratagemPosX < stratagemLeftDivider) { 													;first stratagem
