@@ -1,0 +1,2 @@
+v1.10
+searchwindowEndX angepasst zur bilderkennung, jetzt abhängig von horizontaler mitte und höhe des screens
