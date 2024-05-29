@@ -90,7 +90,7 @@ searchWindowEndY := A_ScreenHeight*(930/1080)
 stratagemLeftDivider := searchWindowEndX-(4*85)
 stratagemMiddleDivider := searchWindowEndX-(3*85)
 stratagemRightDivider := searchWindowEndX-(2*85)
-searchWindowStartX := A_ScreenWidth*(50/1920)
+searchWindowStartX := searchWindowEndX-(5*85)
 searchWindowStartY := A_ScreenHeight*(830/1080)
 loop, parse, allStratagems, |
 {
@@ -294,6 +294,7 @@ send {Click,right}
 BlockInput, Off
 }
 stratagem =
+cPressed = 0
 return
 
 ~c::
