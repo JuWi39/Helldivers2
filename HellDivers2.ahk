@@ -26,6 +26,7 @@ Gui, Color, 6F6F6F
 gui, show, x1930 y300 w550 h400,
 
 gui, add, Text, x520 y380 w30 h20, %version%
+gui, add, Button, x470 y380 w45 h15 gUpdate, Update
 
 gui, add, Picture,  x80 y50 w50 h50 vDivide gDivide, /
 gui, add, Text, w0 h0 vDivide2,
@@ -81,8 +82,14 @@ Gui, Add, Radio, x300 y170 w100 vKeyChoice2 gKeyChoice2, Arrow Keys
 gosub, StandardLoadout
 return
 
+Update:
+UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HellDivers2.ahk, Helldivers2.ahk
+UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2_Stratagems.ini, HD2_Stratagems.ini
+msgbox, Update Successful
+return
+
 ;image recognition for stratagems on Enter press
-~Enter::
+~p::
 gui, submit, nohide
 allStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%
 searchWindowEndX := (A_ScreenWidth/2)-(A_ScreenHeight*480/1080)
@@ -101,21 +108,30 @@ loop, parse, allStratagems, |
 			GuiControl,, One, %A_LoopField%.png
 			IniRead, var2, HD2_Stratagems.ini, Stratagem, %A_LoopField%
 			GuiControl,, One2, %var2%
+			IniWrite, %A_LoopField%, HD2_Standard.ini, One, Picture
+			IniWrite, %var2%, HD2_Standard.ini, One, Code
 		} else if (stratagemPosX > stratagemRightDivider) {												;fourth stratagem
 			GuiControl,, Five, %A_LoopField%.png
 			IniRead, var2, HD2_Stratagems.ini, Stratagem, %A_LoopField%
+			IniWrite, %A_LoopField%, HD2_Standard.ini, Five, Picture
+			IniWrite, %var2%, HD2_Standard.ini, Five, Code
 			GuiControl,, Five2, %var2%
 		} else if (stratagemPosX > stratagemLeftDivider)&&(stratagemPosX < stratagemMiddleDivider) {	;second stratagem
 			GuiControl,, Two, %A_LoopField%.png
 			IniRead, var2, HD2_Stratagems.ini, Stratagem, %A_LoopField%
+			IniWrite, %A_LoopField%, HD2_Standard.ini, Two, Picture
+			IniWrite, %var2%, HD2_Standard.ini, Two, Code
 			GuiControl,, Two2, %var2%
 		} else {																						;third stratagem
 			GuiControl,, Three, %A_LoopField%.png
 			IniRead, var2, HD2_Stratagems.ini, Stratagem, %A_LoopField%
+			IniWrite, %A_LoopField%, HD2_Standard.ini, Three, Picture
+			IniWrite, %var2%, HD2_Standard.ini, Three, Code
 			GuiControl,, Three2, %var2%
 		}
 	}
 }
+send b
 return
 
 ;numpad hotkeys actions
