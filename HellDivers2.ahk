@@ -131,7 +131,6 @@ loop, parse, allStratagems, |
 		}
 	}
 }
-send b
 return
 
 ;numpad hotkeys actions
