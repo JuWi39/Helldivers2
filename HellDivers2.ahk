@@ -3,7 +3,7 @@
 #MaxThreadsPerHotkey 1
 
 version = 1.13
-;TO DO - #IfWinActive [WinTitle, WinText] remove image recog for long press change long press to double or triple within time
+;TO DO - #IfWinActive [WinTitle, WinText] 
 
 ;list of Deparment Stratagems
 departments=General|Offensive|Supply|Defensive
@@ -28,6 +28,9 @@ LongPressChoiceKeys = OneKey,TwoKey,ThreeKey,FourKey
 ;global list of scriptnamehotkeys
 NumPadChoiceHotKeys = *NumpadDiv,NumpadUp,NumPad8,NumpadHome,NumPad7,NumpadPgUp,NumPad9,*NumPadMult,*NumPadSub,*NumPadAdd,NumpadLeft,NumPad4,NumpadClear,NumPad5,NumpadRight,NumPad6,NumpadEnd,NumPad1,NumpadDown,NumPad2,NumpadPgDn,NumPad3,NumpadDel,NumPadDot,NumpadIns,NumPad0
 LongPressChoiceHotKeys = ~*1,~*2,~*3,~*4
+
+;doublepress variables
+OneKeyPressed = TwoKeyPressed = ThreeKeyPressed = FourKeyPressed = 0
 
 {
 Gui, HD2:New
@@ -406,13 +409,16 @@ IniWrite, arrow, HD2_Standard.ini, Keys, Key
 return
 
 voidKeys:
-OneKeyPressed = TwoKeyPressed = ThreeKeyPressed = FourKeyPressed = 0
+OneKeyPressed = 0
+TwoKeyPressed = 0
+ThreeKeyPressed = 0
+FourKeyPressed = 0
 return
 
 ;hotkeys actions
 ~*1::
 OneKeyPressed++
-SetTimer, VoidKeys, 750
+SetTimer, VoidKeys, 200
 if (OneKeyPressed >= 2)
 {
 dialStratagem("OneKey")
@@ -422,30 +428,30 @@ return
 
 ~*2::
 TwoKeyPressed++
-SetTimer, VoidKeys, 750
+SetTimer, VoidKeys, 200
 if (TwoKeyPressed >= 2)
 {
-dialStratagem("OneKey")
+dialStratagem("TwoKey")
 TwoKeyPressed = 0
 }
 return
 
 ~*3::
 ThreeKeyPressed++
-SetTimer, VoidKeys, 750
+SetTimer, VoidKeys, 200
 if (ThreeKeyPressed >= 2)
 {
-dialStratagem("OneKey")
+dialStratagem("ThreeKey")
 ThreeKeyPressed = 0
 }
 return
 
 ~*4::
 FourKeyPressed++
-SetTimer, VoidKeys, 750
+SetTimer, VoidKeys, 200
 if (FourKeyPressed >= 2)
 {
-dialStratagem("OneKey")
+dialStratagem("FourKey")
 FourKeyPressed = 0
 }
 return
