@@ -8,7 +8,7 @@ version = 1.13
 ;list of Deparment Stratagems
 departments=General|Offensive|Supply|Defensive
 stratagemOffensive = Eagle 110mm Rocket Pods|Eagle 500kg Bomb|Eagle Airstrike|Eagle Cluster Bomb|Eagle Napalm Airstrike|Eagle Smoke Strike|Eagle Strafing Run|Orbital 120mm HE Barrage|Orbital 380mm HE Barrage|Orbital Airburst Strike|Orbital EMS Strike|Orbital Gas Strike|Orbital Gatling Barrage|Orbital Laser|Orbital Precision Strike|Orbital Railcannon Strike|Orbital Smoke Strike|Orbital Walking Barrage
-stratagemSupply = Airburst Rocket Launcher|Anti-Materiel Rifle|Arc Thrower|Autocannon|Ballistic Shield Backpack|Emancipator Exosuit|Expendable Anti-Tank|Flamethrower|Grenade Launcher|Guard Dog Rover|Guard Dog|Heavy Machine Gun|Jump Pack|Laser Cannon|Machine Gun|Patriot Exosuit|Quasar Cannon|Railgun|Recoilless Rifle|Shield Generator Pack|Spear|Stalwart|Supply Pack
+stratagemSupply = Airburst Rocket Launcher|Anti-Materiel Rifle|Arc Thrower|Autocannon|Ballistic Shield Backpack|Commando|Emancipator Exosuit|Expendable Anti-Tank|Flamethrower|Grenade Launcher|Guard Dog Rover|Guard Dog|Heavy Machine Gun|Jump Pack|Laser Cannon|Machine Gun|Patriot Exosuit|Quasar Cannon|Railgun|Recoilless Rifle|Shield Generator Pack|Spear|Stalwart|Supply Pack
 stratagemDefensive = Anti-Personnel Minefield|Autocannon Sentry|EMS Mortar Sentry|Gatling Sentry|HMG Emplacement|Incendiary Mines|Machine Gun Sentry|Mortar Sentry|Rocket Sentry|Shield Generator Relay|Tesla Tower
 stratagemGeneralList = Lorem Ipsum|Eagle Rearm|Hellbomb|Reinforce|Resupply|SEAF Artillery
 
@@ -114,18 +114,27 @@ gui, HD2:add, Checkbox, x200 y365 w100 vLongPressChoice gLongPressChoice, Use Do
 
 Gui, HD2:Add, Radio, x20 y360 w100 vKeyChoice1 gKeyChoice1, WASD Keys
 Gui, HD2:Add, Radio, x20 y380 w100 vKeyChoice2 gKeyChoice2, Arrow Keys
+
+gui, HD2:add, Button, x470 y10 w60 h30 gLaunchGame, Launch Game
+
 gui, HD2:show, x1930 y300 w550 h400,
+Menu, Tray, Icon, HD2.ico
 }
+
 gosub, StandardLoadout
 
-return
+RETURN
+
+LaunchGame:
+run, steam://rungameid/553850
+RETURN
 
 Update:
 UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HellDivers2.ahk, Helldivers2.ahk
 UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2_Stratagems.ini, HD2_Stratagems.ini
 msgbox, Update Successful
 ExitApp
-return
+RETURN
 
 ;show and hide for controls as per choice
 HideOrShow()
@@ -226,7 +235,7 @@ GuiControlGet, Stratagem3Place, HD2:, Stratagem3Place
 GuiControlGet, Stratagem4Place, HD2:, Stratagem4Place
 loop, parse, allStratagems, |
 {
-	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *50 %A_LoopField%.png
+	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *20 %A_LoopField%.png
 	if Errorlevel = 0
 	{
 		if (stratagemPosX < stratagemLeftDivider) { 													;first stratagem
@@ -240,7 +249,7 @@ loop, parse, allStratagems, |
 		}
 	}
 }
-return
+RETURN
 
 ;function simulate keypresses for stratagems
 dialStratagem(TextBox)
@@ -305,12 +314,12 @@ if !(cPressed)
 	cPressed = 0
 	setTimer, voidCPress, Off,
 	}
-return
+RETURN
 
 voidCPress:
 cPressed = 0
 setTimer, voidCPress, Off,
-return
+RETURN
 
 ;reads Standard ini for saved Loadout
 StandardLoadout:
@@ -356,27 +365,27 @@ NewStr1 := RegExReplace(controls, var1, var11)
 NewStr1 := RegExReplace(NewStr1,",","|")
 GuiControl, HD2:, Stratagem4Place, %NewStr1%
 HideOrShow()
-return
+RETURN
 
 Stratagem1Place:
 GuiControlGet, Stratagem1Place, HD2:, Stratagem1Place
 IniWrite, %Stratagem1Place%, HD2_Standard.ini, Preference, Stratagem1Place
-return
+RETURN
 
 Stratagem2Place:
 GuiControlGet, Stratagem2Place, HD2:, Stratagem2Place
 IniWrite, %Stratagem2Place%, HD2_Standard.ini, Preference, Stratagem2Place
-return
+RETURN
 
 Stratagem3Place:
 GuiControlGet, Stratagem3Place, HD2:, Stratagem3Place
 IniWrite, %Stratagem3Place%, HD2_Standard.ini, Preference, Stratagem3Place
-return
+RETURN
 
 Stratagem4Place:
 GuiControlGet, Stratagem4Place, HD2:, Stratagem4Place
 IniWrite, %Stratagem4Place%, HD2_Standard.ini, Preference, Stratagem4Place
-return
+RETURN
 
 ;loads the department stratagemList into the dropdown menu
 selectDepartment:
@@ -396,24 +405,24 @@ if (Department="Offensive") {
 } else {
 	GuiControl, HD2:, StratagemChoice, |
 }
-return
+RETURN
 
 KeyChoice1:
 gui, submit, nohide
 IniWrite, wasd, HD2_Standard.ini, Keys, Key
-return
+RETURN
 
 KeyChoice2:
 gui, submit, nohide
 IniWrite, arrow, HD2_Standard.ini, Keys, Key
-return
+RETURN
 
 voidKeys:
 OneKeyPressed = 0
 TwoKeyPressed = 0
 ThreeKeyPressed = 0
 FourKeyPressed = 0
-return
+RETURN
 
 ;hotkeys actions
 ~*1::
@@ -424,7 +433,7 @@ if (OneKeyPressed >= 2)
 dialStratagem("OneKey")
 OneKeyPressed = 0
 }
-return
+RETURN
 
 ~*2::
 TwoKeyPressed++
@@ -434,7 +443,7 @@ if (TwoKeyPressed >= 2)
 dialStratagem("TwoKey")
 TwoKeyPressed = 0
 }
-return
+RETURN
 
 ~*3::
 ThreeKeyPressed++
@@ -444,7 +453,7 @@ if (ThreeKeyPressed >= 2)
 dialStratagem("ThreeKey")
 ThreeKeyPressed = 0
 }
-return
+RETURN
 
 ~*4::
 FourKeyPressed++
@@ -454,163 +463,163 @@ if (FourKeyPressed >= 2)
 dialStratagem("FourKey")
 FourKeyPressed = 0
 }
-return
+RETURN
 
 *NumpadDiv::
 dialStratagem("Divide")
-return
+RETURN
 
 NumpadUp::
 NumPad8::
 dialStratagem("Eight")
-return
+RETURN
 
 NumpadHome::
 NumPad7::
 dialStratagem("Seven")
-return
+RETURN
 
 NumpadPgUp::
 NumPad9::
 dialStratagem("Nine")
-return
+RETURN
 
-*NumPadMult::
+~*NumPadMult::
 dialStratagem("Multiply")
-return
+RETURN
 
 *NumPadSub::
 dialStratagem("Subtract")
-return
+RETURN
 
 *NumPadAdd::
 dialStratagem("Add")
-return
+RETURN
 
 NumpadLeft::
 NumPad4::
 dialStratagem("Four")
-return
+RETURN
 
 NumpadClear::
 NumPad5::
 dialStratagem("Five")
-return
+RETURN
 
 NumpadRight::
 NumPad6::
 dialStratagem("Six")
-return
+RETURN
 
 NumpadEnd::
 NumPad1::
 dialStratagem("One")
-return
+RETURN
 
 NumpadDown::
 NumPad2::
 dialStratagem("Two")
-return
+RETURN
 
 NumpadPgDn::
 NumPad3::
 dialStratagem("Three")
-return
+RETURN
 
 NumpadDel::
 NumPadDot::
 dialStratagem("Comma")
-return
+RETURN
 
 NumpadIns::
 NumPad0::
 dialStratagem("Zero")
-return
+RETURN
 
 ;subroutines which saves the chosen stratagems to the standard ini, loads the picture boxes and the hidden text boxes from the stratagem ini
 OneKey:
 SetButton("OneKey")
-return
+RETURN
 
 TwoKey:
 SetButton("TwoKey")
-return
+RETURN
 
 ThreeKey:
 SetButton("ThreeKey")
-return
+RETURN
 
 FourKey:
 SetButton("FourKey")
-return
+RETURN
 
 Divide:
 SetButton("Divide")
-return
+RETURN
 
 Multiply:
 SetButton("Multiply")
-return
+RETURN
 
 Subtract:
 SetButton("Subtract")
-return
+RETURN
 
 Add:
 SetButton("Add")
-return
+RETURN
 
 Seven:
 SetButton("Seven")
-return
+RETURN
 
 Eight:
 SetButton("Eight")
-return
+RETURN
 
 Nine:
 SetButton("Nine")
-return
+RETURN
 
 Four:
 SetButton("Four")
-return
+RETURN
 
 Five:
 SetButton("Five")
-return
+RETURN
 
 Six:
 SetButton("Six")
-return
+RETURN
 
 One:
 SetButton("One")
-return
+RETURN
 
 Two:
 SetButton("Two")
-return
+RETURN
 
 Three:
 SetButton("Three")
-return
+RETURN
 
 Zero:
 SetButton("Zero")
-return
+RETURN
 
 Comma:
 SetButton("Comma")
-return
+RETURN
 
 NumPadChoice:
 HideOrShow()
-return
+RETURN
 
 LongPressChoice:
 HideOrShow()
-return
+RETURN
 
 HD2GuiClose:
 ExitApp
