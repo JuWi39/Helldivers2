@@ -536,6 +536,10 @@ NumPad0::
 dialStratagem("Zero")
 RETURN
 
+~*RButton::
+cPressed = 0
+RETURN
+
 ;subroutines which saves the chosen stratagems to the standard ini, loads the picture boxes and the hidden text boxes from the stratagem ini
 OneKey:
 SetButton("OneKey")
