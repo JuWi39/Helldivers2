@@ -2,9 +2,10 @@
 #SingleInstance force
 #MaxThreadsPerHotkey 1
 
-version = 1.13
+version = 1.14
 ;TO DO - #IfWinActive [WinTitle, WinText] 
 
+;if you want to ADD Stratagems, add them in "list of Deparment Stratagems" , "HD2_Stratagems.ini"
 ;list of Deparment Stratagems
 departments=General|Offensive|Supply|Defensive
 stratagemOffensive = Eagle 110mm Rocket Pods|Eagle 500kg Bomb|Eagle Airstrike|Eagle Cluster Bomb|Eagle Napalm Airstrike|Eagle Smoke Strike|Eagle Strafing Run|Orbital 120mm HE Barrage|Orbital 380mm HE Barrage|Orbital Airburst Strike|Orbital EMS Strike|Orbital Gas Strike|Orbital Gatling Barrage|Orbital Laser|Orbital Napalm Barrage|Orbital Precision Strike|Orbital Railcannon Strike|Orbital Smoke Strike|Orbital Walking Barrage
@@ -132,6 +133,11 @@ RETURN
 Update:
 UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HellDivers2.ahk, Helldivers2.ahk
 UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2_Stratagems.ini, HD2_Stratagems.ini
+allStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%
+loop, parse, allStratagems, |
+{
+	UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/%A_LoopField%.png, %A_LoopField%.png
+}
 msgbox, Update Successful
 ExitApp
 RETURN
