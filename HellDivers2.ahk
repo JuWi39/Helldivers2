@@ -4,14 +4,22 @@
 
 version = 1.14
 ;TO DO - #IfWinActive [WinTitle, WinText] 
+; add hivebreaker drill, geo-drill
 
-;if you want to ADD Stratagems, add them in "list of Deparment Stratagems" , "HD2_Stratagems.ini"
-;list of Deparment Stratagems
-departments=General|Offensive|Supply|Defensive
-stratagemOffensive = Eagle 110mm Rocket Pods|Eagle 500kg Bomb|Eagle Airstrike|Eagle Cluster Bomb|Eagle Napalm Airstrike|Eagle Smoke Strike|Eagle Strafing Run|Orbital 120mm HE Barrage|Orbital 380mm HE Barrage|Orbital Airburst Strike|Orbital EMS Strike|Orbital Gas Strike|Orbital Gatling Barrage|Orbital Laser|Orbital Napalm Barrage|Orbital Precision Strike|Orbital Railcannon Strike|Orbital Smoke Strike|Orbital Walking Barrage
-stratagemSupply = Airburst Rocket Launcher|Anti-Materiel Rifle|Arc Thrower|Autocannon|Ballistic Shield Backpack|Commando|Directional Shield|Dog Breath|Emancipator Exosuit|Expendable Anti-Tank|Fast Recon Vehicle|Flamethrower|Grenade Launcher|Guard Dog Rover|Guard Dog|Heavy Machine Gun|Jump Pack|Laser Cannon|Machine Gun|Patriot Exosuit|Quasar Cannon|Railgun|Recoilless Rifle|Shield Generator Pack|Spear|Stalwart|Sterilizer|Supply Pack|WASP Launcher
-stratagemDefensive = Anti-Personnel Minefield|Anti-Tank Emplacement|Anti-Tank Mines|Autocannon Sentry|EMS Mortar Sentry|Flame Sentry|Gatling Sentry|HMG Emplacement|Incendiary Mines|Machine Gun Sentry|Mortar Sentry|Rocket Sentry|Shield Generator Relay|Tesla Tower
-stratagemGeneralList = Lorem Ipsum|Eagle Rearm|Hellbomb|Reinforce|Resupply|SEAF Artillery
+;if you want to ADD Stratagems, add them in "HD2_Stratagems.ini"
+;creating list of Deparment Stratagems
+IniRead, prepareDepartments, HD2_Stratagems.ini
+departments := IniContentFormatter(prepareDepartments,0)
+IniRead, prepareStratagemOffensive, HD2_Stratagems.ini, Offensive
+stratagemOffensive := IniContentFormatter(prepareStratagemOffensive,1)
+IniRead, prepareStratagemSupply, HD2_Stratagems.ini, Supply
+stratagemSupply := IniContentFormatter(prepareStratagemSupply,1)
+IniRead, prepareStratagemDefensive, HD2_Stratagems.ini, Defensive
+stratagemDefensive := IniContentFormatter(prepareStratagemDefensive,1)
+IniRead, prepareStratagemGeneralList, HD2_Stratagems.ini, General
+stratagemGeneralList := IniContentFormatter(prepareStratagemGeneralList,1)
+
+buildImageSearchList()
 
 ;global variable chosen stratagem on key press
 stratagem =
@@ -19,7 +27,7 @@ stratagem =
 ;list of hotkeynames
 controls = Zero,Comma,One,Two,Three,Four,Five,Six,Seven,Eight,Nine,Add,Divide,Multiply,Subtract,OneKey,TwoKey,ThreeKey,FourKey
 
-;dial button variable
+;stratagem dial button variable
 cPressed = 0
 
 ;global list of controls per choice
@@ -142,6 +150,76 @@ msgbox, Update Successful
 ExitApp
 RETURN
 
+;building the image searching list in the most complicated way
+buildImageSearchList()
+{
+global prepareStratagemDefensive
+global prepareStratagemOffensive
+global prepareStratagemSupply
+global ImageSearchList
+OffensiveArray := []
+DefensiveArray := []
+SupplyArray := []
+ListOffensive := IniContentFormatter(prepareStratagemOffensive,0)
+ListDefensive := IniContentFormatter(prepareStratagemDefensive,0)
+ListSupply := IniContentFormatter(prepareStratagemSupply,0)
+Loop, Parse, ListOffensive, |,
+{
+    OffensiveArray.push(A_LoopField)
+}
+Loop, Parse, ListDefensive, |,
+{
+    DefensiveArray.push(A_LoopField)
+}
+Loop, Parse, ListSupply, |,
+{
+    SupplyArray.push(A_LoopField)
+}
+SupplyArrayLength := SupplyArray.Length()
+loop, %SupplyArrayLength%
+{
+OffensivePop := OffensiveArray.Pop()
+DefensivePop := DefensiveArray.Pop()
+SupplyPop := SupplyArray.Pop()
+	if (OffensivePop) {
+	ImageSearchList = %ImageSearchList%%OffensivePop%|
+	}
+	if (DefensivePop) {
+	ImageSearchList = %ImageSearchList%%DefensivePop%|
+	}
+	if (SupplyPop) {
+	ImageSearchList = %ImageSearchList%%SupplyPop%|
+	}
+}
+}
+
+;moves the stratagem up in its list
+movinUp(stratagemToMove, section, key)
+{
+if (stratagemToMove && section && key)
+{
+IniDelete, HD2_Stratagems.ini, %section%, %stratagemToMove%
+IniWrite, %key%, HD2_Stratagems.ini, %section%, %stratagemToMove%
+}
+}
+
+;Reads an .ini Section and formats the content to a dropdownlist, with a binary .Sorted. for alphabetical sorting
+IniContentFormatter(IniContent, Sorted) 
+{
+if (Sorted) {
+Sort, IniContent
+}
+Sorted = 0
+IniContent := StrReplace(IniContent,"`n","|")
+IniContent := StrReplace(IniContent,"?")
+IniContent := StrReplace(IniContent,"=")
+IniContent := StrReplace(IniContent,"^")
+IniContent := StrReplace(IniContent,">")
+IniContent := StrReplace(IniContent,"<")
+IniContent := StrReplace(IniContent,"_")
+return IniContent
+}
+
 ;show and hide for controls as per choice
 HideOrShow()
 {
@@ -203,10 +281,33 @@ else if (!LongPressChoice)
 
 SetButton(ButtonName)
 {
+global stratagemGeneralList
+global stratagemOffensive
+global stratagemSupply
+global stratagemDefensive
+searchListOffensive = %stratagemOffensive%|
+searchListDefensive = %stratagemDefensive%|
+searchListSupply = %stratagemSupply%|
+searchListGeneral = %stratagemGeneralList%|
 if (A_LoopField)
 	{
 	GuiControl, HD2:, %ButtonName%, %A_LoopField%.png
-	IniRead, var2, HD2_Stratagems.ini, Stratagem, %A_LoopField%
+		searchTermWithSeparator = %A_LoopField%|
+		if InStr(searchListGeneral, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, General, %A_LoopField%
+		}
+		if InStr(searchListSupply, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Supply, %A_LoopField%
+		movinUp(A_LoopField,"Supply",var2)
+		}
+		if InStr(searchListOffensive, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Offensive, %A_LoopField% 
+		movinUp(A_LoopField,"Offensive",var2)
+		}
+		if InStr(searchListDefensive, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Defensive, %A_LoopField%
+		movinUp(A_LoopField,"Defensive",var2)
+		}
 	GuiControl, HD2:, %ButtonName%2, %var2%
 	IniWrite, %A_LoopField%, HD2_Standard.ini, %ButtonName%, Picture
 	IniWrite, %var2%, HD2_Standard.ini, %ButtonName%, Code
@@ -216,7 +317,22 @@ if (A_LoopField)
 	GuiControlGet, StratagemChoice, HD2:, StratagemChoice
 		if (StratagemChoice) {
 		GuiControl, HD2:, %ButtonName%, %StratagemChoice%.png
-		IniRead, var2, HD2_Stratagems.ini, Stratagem, %StratagemChoice%
+		searchTermWithSeparator = %StratagemChoice%|
+		if InStr(searchListGeneral, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, General, %StratagemChoice%
+		}
+		if InStr(searchListSupply, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Supply, %StratagemChoice%
+		movinUp(StratagemChoice,"Supply",var2)
+		}
+		if InStr(searchListOffensive, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Offensive, %StratagemChoice%
+		movinUp(StratagemChoice,"Offensive",var2)
+		}
+		if InStr(searchListDefensive, searchTermWithSeparator) {
+		IniRead, var2, HD2_Stratagems.ini, Defensive, %StratagemChoice%
+		movinUp(StratagemChoice,"Defensive",var2)
+		}
 		GuiControl, HD2:, %ButtonName%2, %var2%
 		IniWrite, %StratagemChoice%, HD2_Standard.ini, %ButtonName%, Picture
 		IniWrite, %var2%, HD2_Standard.ini, %ButtonName%, Code
@@ -227,7 +343,6 @@ if (A_LoopField)
 ;image recognition for stratagems on p press
 ~p::
 gui, submit, nohide
-allStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%
 searchWindowEndX := (A_ScreenWidth/2)-(A_ScreenHeight*480/1080)
 searchWindowEndY := A_ScreenHeight*(930/1080)
 stratagemLeftDivider := searchWindowEndX-(4*85)
@@ -239,7 +354,7 @@ GuiControlGet, Stratagem1Place, HD2:, Stratagem1Place
 GuiControlGet, Stratagem2Place, HD2:, Stratagem2Place
 GuiControlGet, Stratagem3Place, HD2:, Stratagem3Place
 GuiControlGet, Stratagem4Place, HD2:, Stratagem4Place
-loop, parse, allStratagems, |
+loop, parse, ImageSearchList, |
 {
 	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *25 %A_LoopField%.png
 	if Errorlevel = 0
@@ -266,7 +381,7 @@ GuiControlGet, stratagem, HD2:, %TextBox%2
 GuiControlGet, KeyChoice1, HD2:, KeyChoice1
 GuiControlGet, KeyChoice2, HD2:, KeyChoice2
 if (stratagem) {
-	if (stratagem = "x") {
+	if (stratagem = "?") {
 	SoundPlay, Lorem Ipsum.mp3
 	} else if (KeyChoice1) {
 		BlockInput, Send	;blocks all input (against interference)
@@ -282,7 +397,19 @@ if (stratagem) {
 		send c				;stratagem dial button
 		}
 		SetKeyDelay, 100, 40
-		send %stratagem%{Click,right}
+		loop, parse, stratagem
+		{
+			if (A_LoopField="^") {
+			send w
+			} else if (A_LoopField="<") {
+			send a
+			} else if (A_LoopField="_") {
+			send s
+			} else if (A_LoopField=">") {
+			send d
+			}
+		}		
+		send {Click,right}
 		BlockInput, Off
 	} else if (KeyChoice2) {
 		if !(cPressed) 
@@ -293,13 +420,13 @@ if (stratagem) {
 		SetKeyDelay, 100, 40
 		loop, parse, stratagem
 		{
-			if (A_LoopField="w") {
+			if (A_LoopField="^") {
 			send {Up}
-			} else if (A_LoopField="a") {
+			} else if (A_LoopField="<") {
 			send {Left}
-			} else if (A_LoopField="s") {
+			} else if (A_LoopField="_") {
 			send {Down}
-			} else if (A_LoopField="d") {
+			} else if (A_LoopField=">") {
 			send {Right}
 		}
 	}
