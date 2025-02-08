@@ -140,7 +140,7 @@ RETURN
 
 Update:
 UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HellDivers2.ahk, Helldivers2.ahk
-;UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2_Stratagems.ini, HD2_Stratagems.ini
+UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2_Stratagems.ini, HD2_Stratagems.ini
 downloadStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%|%stratagemGeneralList%
 loop, parse, downloadStratagems, |
 {
