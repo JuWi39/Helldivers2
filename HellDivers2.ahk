@@ -356,7 +356,7 @@ GuiControlGet, Stratagem3Place, HD2:, Stratagem3Place
 GuiControlGet, Stratagem4Place, HD2:, Stratagem4Place
 loop, parse, ImageSearchList, |
 {
-	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *25 %A_LoopField%.png
+	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *50 %A_LoopField%.png
 	if Errorlevel = 0
 	{
 		if (stratagemPosX < stratagemLeftDivider) { 													;first stratagem
