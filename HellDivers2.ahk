@@ -144,7 +144,9 @@ UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/HD2
 downloadStratagems = %stratagemOffensive%|%stratagemSupply%|%stratagemDefensive%|%stratagemGeneralList%
 loop, parse, downloadStratagems, |
 {
+	if (A_LoopField != "Lorem Ipsum") {
 	UrlDownloadToFile, https://raw.githubusercontent.com/JuWi39/Helldivers2/main/%A_LoopField%.png, %A_LoopField%.png
+	}
 }
 msgbox, Update Successful
 ExitApp
