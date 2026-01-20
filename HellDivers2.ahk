@@ -2,7 +2,7 @@
 #SingleInstance force
 #MaxThreadsPerHotkey 1
 
-version = 1.14
+version = 1.15
 ;TO DO - #IfWinActive [WinTitle, WinText] 
 ; add hivebreaker drill, geo-drill
 
@@ -23,6 +23,9 @@ buildImageSearchList()
 
 ;global variable chosen stratagem on key press
 stratagem =
+
+;global variable for the chosen stratagem placement called by the numpad click contains numpadhotkeyinfo
+CalledByXButton = 
 
 ;list of hotkeynames
 controls = Zero,Comma,One,Two,Three,Four,Five,Six,Seven,Eight,Nine,Add,Divide,Multiply,Subtract,OneKey,TwoKey,ThreeKey,FourKey
@@ -106,23 +109,74 @@ gui, HD2:add, Text, x0 y0 w0 h0 vThreeKey2,
 gui, HD2:add, Picture, x490 y50 w50 h50 vFourKey gFourKey, 4
 gui, HD2:add, Text, x0 y0 w0 h0 vFourKey2,
 
+gui, HD2:add, Picture, x290 y110 w34 h34 vChoosePic1 gChoosePic1
+gui, HD2:add, Picture, x325 y110 w34 h34 vChoosePic2 gChoosePic2
+gui, HD2:add, Picture, x360 y110 w34 h34 vChoosePic3 gChoosePic3
+gui, HD2:add, Picture, x395 y110 w34 h34 vChoosePic4 gChoosePic4
+gui, HD2:add, Picture, x430 y110 w34 h34 vChoosePic5 gChoosePic5
+gui, HD2:add, Picture, x465 y110 w34 h34 vChoosePic6 gChoosePic6
+gui, HD2:add, Picture, x500 y110 w34 h34 vChoosePic7 gChoosePic7
+gui, HD2:add, Picture, x290 y145 w34 h34 vChoosePic8 gChoosePic8
+gui, HD2:add, Picture, x325 y145 w34 h34 vChoosePic9 gChoosePic9
+gui, HD2:add, Picture, x360 y145 w34 h34 vChoosePic10 gChoosePic10
+gui, HD2:add, Picture, x395 y145 w34 h34 vChoosePic11 gChoosePic11
+gui, HD2:add, Picture, x430 y145 w34 h34 vChoosePic12 gChoosePic12
+gui, HD2:add, Picture, x465 y145 w34 h34 vChoosePic13 gChoosePic13
+gui, HD2:add, Picture, x500 y145 w34 h34 vChoosePic14 gChoosePic14
+gui, HD2:add, Picture, x290 y180 w34 h34 vChoosePic15 gChoosePic15
+gui, HD2:add, Picture, x325 y180 w34 h34 vChoosePic16 gChoosePic16
+gui, HD2:add, Picture, x360 y180 w34 h34 vChoosePic17 gChoosePic17
+gui, HD2:add, Picture, x395 y180 w34 h34 vChoosePic18 gChoosePic18
+gui, HD2:add, Picture, x430 y180 w34 h34 vChoosePic19 gChoosePic19
+gui, HD2:add, Picture, x465 y180 w34 h34 vChoosePic20 gChoosePic20
+gui, HD2:add, Picture, x500 y180 w34 h34 vChoosePic21 gChoosePic21
+gui, HD2:add, Picture, x290 y215 w34 h34 vChoosePic22 gChoosePic22
+gui, HD2:add, Picture, x325 y215 w34 h34 vChoosePic23 gChoosePic23
+gui, HD2:add, Picture, x360 y215 w34 h34 vChoosePic24 gChoosePic24
+gui, HD2:add, Picture, x395 y215 w34 h34 vChoosePic25 gChoosePic25
+gui, HD2:add, Picture, x430 y215 w34 h34 vChoosePic26 gChoosePic26
+gui, HD2:add, Picture, x465 y215 w34 h34 vChoosePic27 gChoosePic27
+gui, HD2:add, Picture, x500 y215 w34 h34 vChoosePic28 gChoosePic28
+gui, HD2:add, Picture, x290 y250 w34 h34 vChoosePic29 gChoosePic29
+gui, HD2:add, Picture, x325 y250 w34 h34 vChoosePic30 gChoosePic30
+gui, HD2:add, Picture, x360 y250 w34 h34 vChoosePic31 gChoosePic31
+gui, HD2:add, Picture, x395 y250 w34 h34 vChoosePic32 gChoosePic32
+gui, HD2:add, Picture, x430 y250 w34 h34 vChoosePic33 gChoosePic33
+gui, HD2:add, Picture, x465 y250 w34 h34 vChoosePic34 gChoosePic34
+gui, HD2:add, Picture, x500 y250 w34 h34 vChoosePic35 gChoosePic35
+gui, HD2:add, Picture, x290 y285 w34 h34 vChoosePic36 gChoosePic36
+gui, HD2:add, Picture, x325 y285 w34 h34 vChoosePic37 gChoosePic37
+gui, HD2:add, Picture, x360 y285 w34 h34 vChoosePic38 gChoosePic38
+gui, HD2:add, Picture, x395 y285 w34 h34 vChoosePic39 gChoosePic39
+gui, HD2:add, Picture, x430 y285 w34 h34 vChoosePic40 gChoosePic40
+gui, HD2:add, Picture, x465 y285 w34 h34 vChoosePic41 gChoosePic41
+gui, HD2:add, Picture, x500 y285 w34 h34 vChoosePic42 gChoosePic42
+gui, HD2:add, Picture, x290 y320 w34 h34 vChoosePic43 gChoosePic43
+gui, HD2:add, Picture, x325 y320 w34 h34 vChoosePic44 gChoosePic44
+gui, HD2:add, Picture, x360 y320 w34 h34 vChoosePic45 gChoosePic45
+gui, HD2:add, Picture, x395 y320 w34 h34 vChoosePic46 gChoosePic46
+gui, HD2:add, Picture, x430 y320 w34 h34 vChoosePic47 gChoosePic47
+gui, HD2:add, Picture, x465 y320 w34 h34 vChoosePic48 gChoosePic48
+gui, HD2:add, Picture, x500 y320 w34 h34 vChoosePic49 gChoosePic49
+
 gui, HD2:add, DropDownList, x20 y10 w200 vDepartment gselectDepartment,%departments%
 gui, HD2:add, DropDownList, x250 y10 w200 vStratagemChoice,
 
-gui, HD2:add, Text, x300 y220 r1, Place Stratagem 1 on
+gui, HD2:add, Text, x300 y220 r1 vStratagem1PlaceLabel, Place Stratagem 1 on
 gui, HD2:add, DropDownList, x410 y220 w100 vStratagem1Place gStratagem1Place,
-gui, HD2:add, Text, x300 y250 r1, Place Stratagem 2 on
+gui, HD2:add, Text, x300 y250 r1 vStratagem2PlaceLabel, Place Stratagem 2 on
 gui, HD2:add, DropDownList, x410 y250 w100 vStratagem2Place gStratagem2Place,
-gui, HD2:add, Text, x300 y280 r1, Place Stratagem 3 on
+gui, HD2:add, Text, x300 y280 r1 vStratagem3PlaceLabel, Place Stratagem 3 on
 gui, HD2:add, DropDownList, x410 y280 w100 vStratagem3Place gStratagem3Place,
-gui, HD2:add, Text, x300 y310 r1, Place Stratagem 4 on
+gui, HD2:add, Text, x300 y310 r1 vStratagem4PlaceLabel, Place Stratagem 4 on
 gui, HD2:add, DropDownList, x410 y310 w100 vStratagem4Place gStratagem4Place,
 
-gui, HD2:add, Checkbox, x200 y350 w100 vNumPadChoice gNumPadChoice, Use NumPad
-gui, HD2:add, Checkbox, x200 y365 w100 vLongPressChoice gLongPressChoice, Use DoublePress
+gui, HD2:add, Checkbox, x140 y360 w100 h20 vNumPadChoice gNumPadChoice, Use NumPad
+gui, HD2:add, Checkbox, x140 y380 w100 h20 vLongPressChoice gLongPressChoice, Use DoublePress
+gui, HD2:add, Checkbox, x260 y380 w160 h20 gStratPlacement vStratPlacementChoice , Show Stratagem Placement
 
-Gui, HD2:Add, Radio, x20 y360 w100 vKeyChoice1 gKeyChoice1, WASD Keys
-Gui, HD2:Add, Radio, x20 y380 w100 vKeyChoice2 gKeyChoice2, Arrow Keys
+Gui, HD2:Add, Radio, x20 y360 w100 h20 vKeyChoice1 gKeyChoice1, WASD Keys
+Gui, HD2:Add, Radio, x20 y380 w100 h20 vKeyChoice2 gKeyChoice2, Arrow Keys
 
 gui, HD2:add, Button, x470 y10 w60 h30 gLaunchGame, Launch Game
 
@@ -223,6 +277,33 @@ return IniContent
 }
 
 ;show and hide for controls as per choice
+StratPlacement()
+{
+GuiControlGet, StratPlacementChoice , HD2:, StratPlacementChoice
+if(StratPlacementChoice)
+{
+	GuiControl, HD2:Show, Stratagem1PlaceLabel
+	GuiControl, HD2:Show, Stratagem2PlaceLabel
+	GuiControl, HD2:Show, Stratagem3PlaceLabel
+	GuiControl, HD2:Show, Stratagem4PlaceLabel
+	GuiControl, HD2:Show, Stratagem1Place
+	GuiControl, HD2:Show, Stratagem2Place
+	GuiControl, HD2:Show, Stratagem3Place
+	GuiControl, HD2:Show, Stratagem4Place
+}
+else if (!StratPlacementChoice)
+{
+	GuiControl, HD2:Hide, Stratagem1PlaceLabel
+	GuiControl, HD2:Hide, Stratagem2PlaceLabel
+	GuiControl, HD2:Hide, Stratagem3PlaceLabel
+	GuiControl, HD2:Hide, Stratagem4PlaceLabel
+	GuiControl, HD2:Hide, Stratagem1Place
+	GuiControl, HD2:Hide, Stratagem2Place
+	GuiControl, HD2:Hide, Stratagem3Place
+	GuiControl, HD2:Hide, Stratagem4Place
+}
+}
+
 HideOrShow()
 {
 GuiControlGet, NumPadChoice , HD2:, NumPadChoice
@@ -358,7 +439,7 @@ GuiControlGet, Stratagem3Place, HD2:, Stratagem3Place
 GuiControlGet, Stratagem4Place, HD2:, Stratagem4Place
 loop, parse, ImageSearchList, |
 {
-	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *60 %A_LoopField%.png
+	ImageSearch, stratagemPosX, stratagemPosY, searchWindowStartX, searchWindowStartY, searchWindowEndX, searchWindowEndY, *40 %A_LoopField%.png
 	if Errorlevel = 0
 	{
 		if (stratagemPosX < stratagemLeftDivider) { 													;first stratagem
@@ -444,7 +525,7 @@ cPressed = 0
 if !(cPressed) 
 	{
 	cPressed = 1
-	SetTimer, voidCPress, 2000,
+	SetTimer, voidCPress, 3000,
 	} else {
 	cPressed = 0
 	setTimer, voidCPress, Off,
@@ -499,7 +580,13 @@ var11 = %var1%,
 NewStr1 := RegExReplace(controls, var1, var11)
 NewStr1 := RegExReplace(NewStr1,",","|")
 GuiControl, HD2:, Stratagem4Place, %NewStr1%
+GuiControl, HD2: , StratPlacementChoice, 0
+StratPlacement()
 HideOrShow()
+loop, 64
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
 RETURN
 
 Stratagem1Place:
@@ -528,15 +615,47 @@ gui, submit, nohide
 if (Department="Offensive") {
 	GuiControl, HD2:, StratagemChoice, |
 	GuiControl, HD2:, StratagemChoice, %stratagemOffensive%
+	Loop, 49
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, Lorem Ipsum.png
+	}
+	Loop, parse, stratagemOffensive, |,
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, %A_LoopField%.png
+	}
 } else if (Department="Supply") {
 	GuiControl, HD2:, StratagemChoice, |
 	GuiControl, HD2:, StratagemChoice, %stratagemSupply%
+	Loop, 49
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, Lorem Ipsum.png
+	}
+	Loop, parse, stratagemSupply, |,
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, %A_LoopField%.png
+	}
 } else if (Department="Defensive") {
 	GuiControl, HD2:, StratagemChoice, |
 	GuiControl, HD2:, StratagemChoice, %stratagemDefensive%
+	Loop, 49
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, Lorem Ipsum.png
+	}
+	Loop, parse, stratagemDefensive, |,
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, %A_LoopField%.png
+	}
 } else if (Department="General") {
 	GuiControl, HD2:, StratagemChoice, |
 	GuiControl, HD2:, StratagemChoice, %stratagemGeneralList%
+	Loop, 49
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, Lorem Ipsum.png
+	}
+	Loop, parse, stratagemGeneralList, |,
+	{
+		GuiControl, HD2:, ChoosePic%A_Index%, %A_LoopField%.png
+	}
 } else {
 	GuiControl, HD2:, StratagemChoice, |
 }
@@ -677,79 +796,645 @@ RETURN
 
 ;subroutines which saves the chosen stratagems to the standard ini, loads the picture boxes and the hidden text boxes from the stratagem ini
 OneKey:
-SetButton("OneKey")
+CalledByXButton = OneKey
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 TwoKey:
-SetButton("TwoKey")
+CalledByXButton = TwoKey
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 ThreeKey:
-SetButton("ThreeKey")
+CalledByXButton = ThreeKey
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 FourKey:
-SetButton("FourKey")
+CalledByXButton = FourKey
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Divide:
-SetButton("Divide")
+CalledByXButton = Divide
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Multiply:
-SetButton("Multiply")
+CalledByXButton = Multiply
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Subtract:
-SetButton("Subtract")
+CalledByXButton = Subtract
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Add:
-SetButton("Add")
+CalledByXButton = Add
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Seven:
-SetButton("Seven")
+CalledByXButton = Seven
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Eight:
-SetButton("Eight")
+CalledByXButton = Eight
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Nine:
-SetButton("Nine")
+CalledByXButton = Nine
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Four:
-SetButton("Four")
+CalledByXButton = Four
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Five:
-SetButton("Five")
+CalledByXButton = Five
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Six:
-SetButton("Six")
+CalledByXButton = Six
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 One:
-SetButton("One")
+CalledByXButton = One
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Two:
-SetButton("Two")
+CalledByXButton = Two
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Three:
-SetButton("Three")
+CalledByXButton = Three
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Zero:
-SetButton("Zero")
+CalledByXButton = Zero
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
 RETURN
 
 Comma:
-SetButton("Comma")
+CalledByXButton = Comma
+loop, 49
+{
+GuiControl, HD2:Show, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic1:
+GuiControl, Choose, StratagemChoice, 1
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic2:
+GuiControl, Choose, StratagemChoice, 2
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic3:
+GuiControl, Choose, StratagemChoice, 3
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic4:
+GuiControl, Choose, StratagemChoice, 4
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic5:
+GuiControl, Choose, StratagemChoice, 5
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic6:
+GuiControl, Choose, StratagemChoice, 6
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic7:
+GuiControl, Choose, StratagemChoice, 7
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic8:
+GuiControl, Choose, StratagemChoice, 8
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic9:
+GuiControl, Choose, StratagemChoice, 9
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic10:
+GuiControl, Choose, StratagemChoice, 10
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic11:
+GuiControl, Choose, StratagemChoice, 11
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic12:
+GuiControl, Choose, StratagemChoice, 12
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic13:
+GuiControl, Choose, StratagemChoice, 13
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic14:
+GuiControl, Choose, StratagemChoice, 14
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic15:
+GuiControl, Choose, StratagemChoice, 15
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic16:
+GuiControl, Choose, StratagemChoice, 16
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic17:
+GuiControl, Choose, StratagemChoice, 17
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic18:
+GuiControl, Choose, StratagemChoice, 18
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic19:
+GuiControl, Choose, StratagemChoice, 19
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic20:
+GuiControl, Choose, StratagemChoice, 20
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic21:
+GuiControl, Choose, StratagemChoice, 21
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic22:
+GuiControl, Choose, StratagemChoice, 22
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic23:
+GuiControl, Choose, StratagemChoice, 23
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic24:
+GuiControl, Choose, StratagemChoice, 24
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic25:
+GuiControl, Choose, StratagemChoice, 25
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic26:
+GuiControl, Choose, StratagemChoice, 26
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic27:
+GuiControl, Choose, StratagemChoice, 27
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic28:
+GuiControl, Choose, StratagemChoice, 28
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic29:
+GuiControl, Choose, StratagemChoice, 29
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic30:
+GuiControl, Choose, StratagemChoice, 30
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic31:
+GuiControl, Choose, StratagemChoice, 31
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic32:
+GuiControl, Choose, StratagemChoice, 32
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic33:
+GuiControl, Choose, StratagemChoice, 33
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic34:
+GuiControl, Choose, StratagemChoice, 34
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic35:
+GuiControl, Choose, StratagemChoice, 35
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic36:
+GuiControl, Choose, StratagemChoice, 36
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic37:
+GuiControl, Choose, StratagemChoice, 37
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic38:
+GuiControl, Choose, StratagemChoice, 38
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic39:
+GuiControl, Choose, StratagemChoice, 39
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic40:
+GuiControl, Choose, StratagemChoice, 40
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic41:
+GuiControl, Choose, StratagemChoice, 41
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic42:
+GuiControl, Choose, StratagemChoice, 42
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic43:
+GuiControl, Choose, StratagemChoice, 43
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic44:
+GuiControl, Choose, StratagemChoice, 44
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic45:
+GuiControl, Choose, StratagemChoice, 45
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic46:
+GuiControl, Choose, StratagemChoice, 46
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic47:
+GuiControl, Choose, StratagemChoice, 47
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic48:
+GuiControl, Choose, StratagemChoice, 48
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
+RETURN
+
+ChoosePic49:
+GuiControl, Choose, StratagemChoice, 49
+SetButton(CalledByXButton)
+CalledByXButton =
+loop, 49
+{
+GuiControl, HD2:Hide, ChoosePic%A_Index%
+}
 RETURN
 
 NumPadChoice:
